@@ -9,6 +9,7 @@ import {
 import AddCoffee from './Components/AddCoffee.jsx';
 import UpdateCoffee from './Components/UpdateCoffee.jsx';
 import Home from './Pages/Home.jsx';
+import CoffeeDetails from './Components/CoffeeDetails.jsx';
 
 const router = createBrowserRouter([
   {
@@ -17,18 +18,25 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home></Home>
-      }
+        element: <Home></Home>,
+        loader: () => fetch('http://localhost:5000/coffees')
+      },
+      {
+        path: "update-coffee/:id",
+        element: <UpdateCoffee></UpdateCoffee>,
+        loader: ({params}) => fetch(`http://localhost:5000/coffees/${params.id}`)
+      },
+      {
+        path: "coffee-details/:id",
+        element: <CoffeeDetails></CoffeeDetails>,
+        loader: ({params}) => fetch(`http://localhost:5000/coffees/${params.id}`)
+      },
+      {
+        path: 'add-coffee',
+        element: <AddCoffee></AddCoffee>
+      },
     ]
   },
-  {
-    path: 'add-coffee',
-    element: <AddCoffee></AddCoffee>
-  },
-  {
-    path: 'update-coffee',
-    element: <UpdateCoffee></UpdateCoffee>
-  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
